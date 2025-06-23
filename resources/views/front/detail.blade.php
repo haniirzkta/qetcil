@@ -116,33 +116,7 @@
                             </div>
                         </div>
 
-                         <!-- Size Section -->
-                        @if ($bouquet->category->name == 'Rings')
-                            <div class="mb-4">
-                                <h5 class="fw-semibold">Choose Size</h5>
-                                <div class="d-flex gap-3 flex-wrap">
-                                    @forelse ($bouquet->bouquetSizes as $size)
-                                        <div>
-                                            <!-- Radio Button for Size -->
-                                            <input class="size-option" type="radio" name="size"
-                                                id="size-{{ $size->size }}" value="{{ $size->size }}" required>
-
-                                            <!-- Label for Size with Bootstrap Button-like Style -->
-                                            <label
-                                                class="size-option-label px-3 py-2 rounded border border-secondary d-inline-block text-center"
-                                                for="size-{{ $size->size }}">
-                                                {{ $size->size }} cm
-                                            </label>
-                                        </div>
-                                    @empty
-                                        <p>No sizes available</p>
-                                    @endforelse
-                                </div>
-                            </div>
-
-                        @else
-                            <input type="hidden" name="size" value="0">
-                        @endif
+                    
 
 
 
@@ -159,13 +133,6 @@
                             @endif
                         </div>
                     </form>
-
-                    <!-- Product Details -->
-                    <ul class="list-unstyled mt-4">
-                        <li><strong>Color:</strong> Rose Gold</li>
-                        <li><strong>Purity:</strong> 16K (70%)</li>
-                        <li><strong>Length:</strong> 15.5 - 16.5 Centimeter</li>
-                    </ul>
                 </div>
             </div>
         </div>

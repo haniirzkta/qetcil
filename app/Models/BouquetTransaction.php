@@ -50,6 +50,6 @@ class BouquetTransaction extends Model
 
     public function items()
     {
-        return $this->hasMany(TransactionItem::class, 'bouquet_transaction_id');
+        return $this->hasMany(BouquetTransaction::class, 'transaction_trx_id');
     }
 }

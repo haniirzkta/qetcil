@@ -1,7 +1,7 @@
 {{-- Footer --}}
 <style>
     .bg-soft-peach-pink {
-        background-color: #f7b6b2; /* Warna krem peach muda dengan sentuhan pink */
+        background-color: #f7b6b2; 
     }
 
     .footer-link {
@@ -11,7 +11,7 @@
     }
 
     .footer-link:hover {
-        color: #4a4a4a; /* Hover: abu tua */
+        color: #4a4a4a; 
     }
 
     .footer-text {
@@ -23,16 +23,7 @@
     <div class="container text-center">
         <div class="row">
             <div class="col">
-                <a href="/privacy-policy" class="footer-link"><small>Privacy Policy</small></a>
-            </div>
-            <div class="col">
-                <a href="/terms-of-service" class="footer-link"><small>Terms of Service</small></a>
-            </div>
-            <div class="col">
-                <a href="/contact" class="footer-link"><small>Contact</small></a>
-            </div>
-            <div class="col">
-                <small class="footer-text">&copy; 2025 Qetcil Bouquet</small>
+                <small class="footer-text">&copy; 2025 Qetcil</small>
             </div>
         </div>
     </div>

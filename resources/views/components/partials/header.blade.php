@@ -15,7 +15,7 @@
             <div class="d-flex position-absolute end-0 pe-5 align-items-center">
 
                 <a href="{{ route('profile.setting') }}" class="text-dark me-4">
-                    <i class="bi bi-person fs-4"></i>
+                    <i class="bi bi-person fs-4"></i> {{ Auth::user() ? Auth::user()->name : ''}}
                 </a>
 
                 <a href="{{ route('cart.index') }}" class="text-dark position-relative">

@@ -23,7 +23,7 @@
             </select>
         </div> --}}
             <div class="row g-3 g-md-4">
-                @forelse ($category->bouquet as $bouquet)
+                @forelse ($category->bouquets as $bouquet)
                     <!-- Product Item -->
                     <div class="col-6 col-md-4">
                         <div class="text-center">

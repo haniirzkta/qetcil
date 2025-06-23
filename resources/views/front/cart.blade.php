@@ -67,13 +67,16 @@
                                 <p id="subtotal-{{ $cart->id }}" class="mb-0 fw-bold">Rp
                                     {{ number_format($cart->total_price, 0, ',', '.') }}</p>
                             </td>
-                            <td class="text-center">
-                                <a href="" class="text-dark p-0 remove-item"
-                                     title="Remove item">
-                                    <i class="bi bi-trash fs-5"></i>
-                                </a>
+                    <td class="text-center">
+    <form action="{{ route('cart.delete', $cart->bouquet->id) }}" method="POST">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn btn-link text-dark p-0" title="Remove item">
+            <i class="bi bi-trash fs-5"></i>
+        </button>
+    </form>
+</td>
 
-                            </td>
                         </tr>
                     @empty
                         <tr>

@@ -5,6 +5,8 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FrontController;
 
+
+
 Route::get('/', [FrontController::class, 'index'])->name('front.index');
 Route::get('/bouquet/{category:slug}', [FrontController::class, 'category'])->name('front.category');
 Route::get('/bouquet/{category:slug}/{bouquet:slug}', [FrontController::class, 'detail'])->name('front.detail');
@@ -32,6 +34,9 @@ Route::middleware('auth')->group(function () {
     ->name('cart.checkout.add')
     ->block($lockSeconds = 5, $waitSeconds = 10);
 
+    Route::delete('/cart/{bouquet:id}', [CartController::class, 'deleteCart'])->name('cart.delete');
+
+
     Route::get('/cart/quantity/add/{bouquet:id}', [CartController::class, 'addQuantity'])->name('cart.quantity.add');
     Route::get('/cart/quantity/remove/{bouquet:id}', [CartController::class, 'removeQuantity'])->name('cart.quantity.remove');
 
@@ -41,6 +46,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/cart/cart-checkout/checkout-process', [FrontController::class, 'cartCheckoutProcess'])
     ->name('front.cart.checkoutProcess');
+
 
     // Payment routes
     Route::get('/payment/thank-you/{uniqueTrxId}', [FrontController::class, 'payment'])->name('front.payment');

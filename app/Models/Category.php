@@ -24,7 +24,8 @@ class Category extends Model
         $this->attributes['slug'] = Str::slug($value);
     }
 
-    public function bouquet() : HasMany {
+     public function bouquets()
+    {
         return $this->hasMany(Bouquet::class);
     }
 }

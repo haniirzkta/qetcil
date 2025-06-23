@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bank;
 use App\Models\Cart;
-use App\Models\Bouquety;
+use App\Models\Bouquet; 
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\BouquetTransaction;
@@ -21,24 +21,27 @@ class FrontController extends Controller
     }
 
     public function category(Category $category)
-    {
-        $categories = Category::all();
-        return view('front.bouquet', compact('category', 'categories'));
-    }
+{
+    $categories = Category::all();
+    $category->load('bouquets');
+    return view('front.bouquet', compact('category', 'categories'));
+}
+
 
     public function detail(Category $category, Bouquet $bouquet)
     {
         $categories = Category::all();
+        
         $bouquet = Bouquet::with('bouquetPhotos')->where('id', $bouquet->id)->get();
         return view('front.detail', compact('category', 'categories', 'bouquet'));
     }
 
     public function checkout(Request $data)
     {
+        // dd($data);
         $data->validate([
-            'bouquet_id' => 'required|exists:jewelries,id',
+            'bouquet_id' => 'required|exists:bouquets,id',
             'quantity' => 'required|integer|min:1',
-            'size' => 'required',
         ]);
         $categories = Category::all();
         $banks = Bank::all();
@@ -60,7 +63,7 @@ class FrontController extends Controller
     public function checkoutProcess(Bouquet $bouquet, Request $request)
     {
         $request->validate([
-            'bouquet_id' => 'required|exists:jewelries,id',
+            'bouquet_id' => 'required|exists:bouquets,id',
             'quantity' => 'required|integer|min:1',
             'bank_id' => 'required|exists:banks,id',
         ]);
@@ -94,7 +97,9 @@ class FrontController extends Controller
         ]);
 
         $user = Auth::user();
+        // dd($user->id);
         $cartItems = Cart::where('user_id', $user->id)->get();
+        // dd($cartItems);
 
         if ($cartItems->isEmpty()) {
             return redirect()->route('front.cart')->withErrors('Your cart is empty!');
@@ -120,6 +125,7 @@ class FrontController extends Controller
 
         foreach ($cartItems as $item) {
             $transaction->items()->create([
+                'user_id' => $user->id,
                 'bouquet_id' => $item->bouquet_id,
                 'quantity' => $item->quantity,
                 'sub_total_amount' => $item->bouquet->price * $item->quantity,

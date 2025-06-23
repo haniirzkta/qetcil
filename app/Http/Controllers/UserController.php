@@ -17,8 +17,9 @@ class UserController extends Controller
     public function edit()
     {
         $user = Auth::user();
+        $categories = Category::all();
         $transactions = BouquetTransaction::where('user_id', $user->id)->orderByDesc('created_at')->get();
-        return view('front.profile', compact('user', 'transactions'));
+        return view('front.profile', compact('user', 'transactions','categories'));
     }
 
     public function setting() {
@@ -52,8 +53,9 @@ class UserController extends Controller
     }
 
     public function transactions() {
+        $categories = Category::all();
         $transactions = BouquetTransaction::where('user_id', Auth::id())->orderByDesc('created_at')->get();
-        return view('front.transactions', compact('transactions'));
+        return view('front.transactions', compact('transactions','categories'));
 
     }
 

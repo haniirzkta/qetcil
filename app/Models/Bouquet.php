@@ -35,7 +35,7 @@ class Bouquet extends Model
         return $this->belongsTo(category::class);
     }
 
-    public function BouquetPhotos() : HasMany {
+    public function bouquetPhotos() : HasMany {
         return $this->hasMany(BouquetPhoto::class);
     }
 

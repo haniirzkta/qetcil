@@ -31,9 +31,8 @@ class CartController extends Controller
     {
         // Validasi input dari form
         $request->validate([
-            'bouquet_id' => 'required|exists:jewelries,id', // Pastikan jewelry_id ada di tabel jewelries
+            'bouquet_id' => 'required|exists:bouquets,id', // Pastikan jewelry_id ada di tabel jewelries
             'quantity' => 'required|integer|min:1',        // Pastikan quantity adalah integer dan lebih dari 0
-            'size' => 'required|integer'
         ]);
 
         // Mulai transaksi untuk memastikan integritas data
@@ -64,7 +63,6 @@ class CartController extends Controller
                 Cart::create([
                     'user_id' => $userId,
                     'bouquet_id' => $bouquetId,
-                    'size' => $size,
                     'quantity' => $quantity,
                     'total_price' => $bouquet->price * $quantity,
                     'grand_total_price' => $bouquet->price * $quantity,
@@ -73,7 +71,7 @@ class CartController extends Controller
         });
 
         toast()
-            ->success('Success! Your Dream Jewelry Awaits 💎', 'Head over to your cart and make it yours today!');
+            ->success('Success! Your Dream Bouquet Awaits', 'Head over to your cart and make it yours today!');
         return redirect()->back();
     }
 
@@ -112,4 +110,24 @@ class CartController extends Controller
 
         return redirect()->route('cart.index');
     }
+
+    public function deleteCart(Bouquet $bouquet)
+{
+    $userId = Auth::id();
+
+    // Temukan item keranjang berdasarkan user dan bouquet
+    $cartItem = Cart::where('user_id', $userId)
+        ->where('bouquet_id', $bouquet->id)
+        ->first();
+
+    if ($cartItem) {
+        $cartItem->delete();
+        toast()->success('Item Removed!', 'The bouquet has been removed from your cart.');
+    } else {
+        toast()->error('Item Not Found', 'The bouquet you are trying to remove does not exist in your cart.');
+    }
+
+    return redirect()->route('cart.index');
+}
+
 }
