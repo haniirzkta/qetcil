@@ -22,7 +22,7 @@
                         <div class="card-body">
                             <h5 class="card-title mb-3">Alamat Pengiriman</h5>
                             <p class="mb-1"><strong>Rumah · {{ Auth::user()->name }}</strong></p>
-                            <p class="text-muted">Jl. Beji No.99, Universitas Gunadarma, Depok, Jawa Barat</p>
+                            <p class="text-muted">Jl. Beji No.99, Depok, Jawa Barat</p>
                             {{-- <button class="btn btn-outline-secondary btn-sm" type="button">Ganti</button> --}}
                         </div>
                     </div>
