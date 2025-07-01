@@ -123,9 +123,9 @@ class FrontController extends Controller
             'status' => 'unpaid',
         ]);
 
+
         foreach ($cartItems as $item) {
             $transaction->items()->create([
-                'user_id' => $user->id,
                 'bouquet_id' => $item->bouquet_id,
                 'quantity' => $item->quantity,
                 'sub_total_amount' => $item->bouquet->price * $item->quantity,

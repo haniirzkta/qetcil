@@ -44,8 +44,8 @@ class RolePermissionSeeder extends Seeder
 
         // Create customer user and assign role
         $customer = User::create([
-            'name' => 'Wildan Hawari',
-            'email' => 'wildanhawari@gmail.com',
+            'name' => 'Hani',
+            'email' => 'hanifahrzkta@gmail.com',
             'phone_number' => '1234567',
             'avatar' => 'images/default-avatar.png',
             'password' => bcrypt('12345'),

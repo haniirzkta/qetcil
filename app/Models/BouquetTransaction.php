@@ -24,7 +24,7 @@ class BouquetTransaction extends Model
     ];
 
     public static function generateUniqueTrxId() {
-        $prefix = 'Myc';
+        $prefix = 'QCL';
         $datetime = date('Ymdhis');
         do {
             $randString = $prefix . $datetime . mt_rand(1000,9999);
@@ -50,6 +50,6 @@ class BouquetTransaction extends Model
 
     public function items()
     {
-        return $this->hasMany(BouquetTransaction::class, 'transaction_trx_id');
+        return $this->hasMany(TransactionItem::class, 'bouquet_transaction_id');
     }
 }
