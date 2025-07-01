@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\BouquetTransactionResource\Pages;
-use App\Filament\Resources\BouquetTransactionResource\RelationManagers;
 use App\Models\BouquetTransaction;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -15,12 +14,10 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class BouquetTransactionResource extends Resource
 {
     protected static ?string $model = BouquetTransaction::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
@@ -30,14 +27,18 @@ class BouquetTransactionResource extends Resource
                 Forms\Components\Select::make('user_id')
                     ->label('User')
                     ->options(function () {
-                        return \App\Models\User::all()->pluck('name', 'id')->toArray();
+                        return \App\Models\User::all()->mapWithKeys(function ($user) {
+                            return [$user->id => $user->name ?? 'Unnamed User'];
+                        })->toArray();
                     })
                     ->required(),
 
                 Forms\Components\Select::make('bouquet_id')
                     ->label('Bouquet')
                     ->options(function () {
-                        return \App\Models\Bouquet::all()->pluck('name', 'id')->toArray();
+                        return \App\Models\Bouquet::all()->mapWithKeys(function ($bouquet) {
+                            return [$bouquet->id => $bouquet->name ?? 'Unnamed Bouquet'];
+                        })->toArray();
                     })
                     ->required(),
 
@@ -65,7 +66,9 @@ class BouquetTransactionResource extends Resource
                 Forms\Components\Select::make('bank_id')
                     ->label('Bank')
                     ->options(function () {
-                        return \App\Models\Bank::all()->pluck('name', 'id')->toArray();
+                        return \App\Models\Bank::all()->mapWithKeys(function ($bank) {
+                            return [$bank->id => $bank->bank_name ?? 'Unnamed Bank'];
+                        })->toArray();
                     })
                     ->required(),
 
@@ -79,7 +82,6 @@ class BouquetTransactionResource extends Resource
                     ->disabled()
                     ->required(),
 
-                // Add status field
                 Forms\Components\Select::make('status')
                     ->label('Status')
                     ->options([
@@ -89,7 +91,7 @@ class BouquetTransactionResource extends Resource
                         'in delivery' => 'In Delivery',
                         'success' => 'Success',
                     ])
-                    ->default('unpaid') // Default status is 'unpaid'
+                    ->default('unpaid')
                     ->required(),
             ]);
     }
@@ -99,6 +101,7 @@ class BouquetTransactionResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id')->label('ID')->sortable(),
+
                 ImageColumn::make('proof')
                     ->label('Proof')
                     ->size(50)
@@ -107,12 +110,16 @@ class BouquetTransactionResource extends Resource
                     ->url(fn (BouquetTransaction $record) => $record->proof ? asset('storage/' . $record->proof) : null, true),
 
                 TextColumn::make('user.name')->label('User Name')->sortable(),
-                TextColumn::make('transaction_trx_id')->label('Transaction trx id')
-                ->sortable()
-                ->copyable(),
-                TextColumn::make('grand_total_amount')->label('Grand Total')->money('IDR'),
 
-                // Editable status field
+                TextColumn::make('transaction_trx_id')
+                    ->label('Transaction trx id')
+                    ->sortable()
+                    ->copyable(),
+
+                TextColumn::make('grand_total_amount')
+                    ->label('Grand Total')
+                    ->money('IDR'),
+
                 SelectColumn::make('status')
                     ->label('Status')
                     ->options([
@@ -140,7 +147,7 @@ class BouquetTransactionResource extends Resource
                     }),
             ])
             ->filters([
-                // You can add filters here if needed
+                // Tambahkan filter jika diperlukan
             ])
             ->defaultSort('id', 'desc')
             ->actions([
