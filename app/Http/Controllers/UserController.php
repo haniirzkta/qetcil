@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Category;
+use App\Models\UserAddress;
 use Illuminate\Http\Request;
 use Filament\Facades\Filament;
 use App\Models\BouquetTransaction;
@@ -29,28 +30,47 @@ class UserController extends Controller
 
     // Update the user's profile
     public function update(Request $request)
-    {
-        $user = Auth::user();
+{
+    $user = Auth::user();
 
-        // Validate the input
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-            'password' => 'nullable|confirmed|min:8',
-        ]);
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email,' . $user->id,
+        'password' => 'nullable|confirmed|min:8',
 
-        // Update user data
-        $user->name = $validated['name'];
-        $user->email = $validated['email'];
+        'phone_number' => 'nullable|string|max:20',
 
-        if ($validated['password']) {
-            $user->password = Hash::make($validated['password']);
-        }
+        // Alamat
+        'address' => 'required|string|max:255',
+        'city' => 'required|string|max:255',
+        'post_code' => 'required|string|max:20',
+    ]);
 
-        $user->save();
+    // Update data user
+    $user->name = $validated['name'];
+    $user->email = $validated['email'];
+    $user->phone_number = $validated['phone_number'];
 
-        return redirect()->route('profile.edit')->with('success', 'Profile updated successfully!');
+    if (!empty($validated['password'])) {
+        $user->password = Hash::make($validated['password']);
     }
+
+    $user->save();
+
+    // Update atau buat alamat
+    $user->address()->updateOrCreate(
+        ['user_id' => $user->id],
+        [
+            'address' => $validated['address'],
+            'city' => $validated['city'],
+            'post_code' => $validated['post_code'],
+        ]
+    );
+
+    return redirect()->route('profile.edit')->with('success', 'Profile updated successfully!');
+}
+
+
 
     public function transactions() {
         $categories = Category::all();

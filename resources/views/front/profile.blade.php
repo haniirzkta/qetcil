@@ -8,12 +8,16 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 @endpush
 
+
 <div class="container">
     <div class="row">
         <!-- Main Content Area -->
         <div class="col-md-9 col-lg-10 p-5">
             <h2>Edit Profile</h2>
-            <p class="text-muted w-50">Your profile is the key to your experience with us. Keep it up to date to ensure you’re getting the most out of our services. Here, you can easily update your personal information, including your name, email address, and password.</p>
+            <p class="text-muted w-50">
+                Your profile is the key to your experience with us. Keep it up to date to ensure you’re getting the most out of our services.
+                Here, you can easily update your personal information, including your name, email address, address, and password.
+            </p>
 
             <!-- Edit Profile Form -->
             <form method="POST" action="{{ route('profile.update') }}">
@@ -32,6 +36,34 @@
                     <input type="email" class="form-control" id="email" name="email" value="{{ old('email', auth()->user()->email) }}" required>
                 </div>
 
+                <!-- Address Input -->
+                @php
+    $userAddress = auth()->user()->address;
+@endphp
+
+<div class="mb-3">
+    <label for="phone_number" class="form-label">No. Telepon</label>
+    <input type="text" class="form-control" id="phone_number" name="phone_number"
+        value="{{ old('phone_number', $user->phone_number) }}">
+</div>
+
+
+<div class="mb-3">
+    <label for="address" class="form-label">Alamat</label>
+    <textarea class="form-control" id="address" name="address" rows="2" required>{{ old('address', $userAddress->address ?? '') }}</textarea>
+</div>
+
+<div class="mb-3">
+    <label for="city" class="form-label">Kota</label>
+    <input type="text" class="form-control" id="city" name="city" value="{{ old('city', $userAddress->city ?? '') }}" required>
+</div>
+
+<div class="mb-3">
+    <label for="post_code" class="form-label">Kode Pos</label>
+    <input type="text" class="form-control" id="post_code" name="post_code" value="{{ old('post_code', $userAddress->post_code ?? '') }}" required>
+</div>
+
+
                 <!-- Password Input -->
                 <div class="mb-3">
                     <label for="password" class="form-label">New Password</label>
@@ -45,11 +77,8 @@
                 </div>
 
                 <!-- Submit Button -->
-
-                    <button type="submit" class="btn btn-dark py-2 px-5 mt-3">Update Profile</button>
-
+                <button type="submit" class="btn btn-dark py-2 px-5 mt-3">Update Profile</button>
             </form>
-
         </div>
     </div>
 </div>
@@ -59,5 +88,4 @@
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>
 @endpush
-
 @endsection

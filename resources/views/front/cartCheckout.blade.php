@@ -16,18 +16,28 @@
             <!-- Left Section -->
             <div class="col-lg-8">
                 <!-- Shipping Address -->
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title mb-3">Alamat Pengiriman</h5>
-                        <p class="mb-1"><strong>Rumah · {{ Auth::user()->name }}</strong></p>
-                        <p class="text-muted">Jl. Beji No.99, Depok, Jawa Barat</p>
-                    </div>
-                </div>
+                <!-- Alamat Pengiriman -->
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title mb-3">Alamat Pengiriman</h5>
+
+        <p class="text-muted">
+            {{ $userAddress?->address ?? '-' }},
+            {{ $userAddress?->city ?? '-' }},
+            {{ $userAddress?->post_code ?? '-' }}
+        </p>
+
+        <a href="{{ route('profile.edit') }}" class="btn btn-outline-secondary btn-sm">Ubah Alamat</a>
+    </div>
+</div>
+
+
+
 
                 <!-- Order Summary -->
                 <div class="card mb-4">
                     <div class="card-body">
-                        <h5 class="card-title mb-3">Qetcil</h5>
+                        <h5 class="card-title mb-3">Product</h5>
                         @foreach ($cartItems as $item)
                         <div class="d-flex align-items-start mb-3">
                             <img src="{{ Storage::url($item->bouquet->thumbnail) }}" alt="Product Image"
@@ -42,7 +52,7 @@
                             </div>
                         </div>
                         @endforeach
-                        <textarea name="note" class="form-control" rows="2" placeholder="Kasih catatan (opsional)"></textarea>
+                        <textarea name="note" class="form-control" rows="2" placeholder="Tambah catatan (opsional)"></textarea>
                     </div>
                 </div>
             </div>

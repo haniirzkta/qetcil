@@ -8,6 +8,8 @@ use App\Http\Controllers\FrontController;
 
 
 Route::get('/', [FrontController::class, 'index'])->name('front.index');
+Route::put('/profile', [FrontController::class, 'updateProfile'])->name('profile.update');
+
 Route::get('/bouquet/{category:slug}', [FrontController::class, 'category'])->name('front.category');
 Route::get('/bouquet/{category:slug}/{bouquet:slug}', [FrontController::class, 'detail'])->name('front.detail');
 Route::get('/tes', function () {

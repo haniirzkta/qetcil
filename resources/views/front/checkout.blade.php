@@ -21,16 +21,22 @@
                     <div class="card mb-4">
                         <div class="card-body">
                             <h5 class="card-title mb-3">Alamat Pengiriman</h5>
-                            <p class="mb-1"><strong>Rumah · {{ Auth::user()->name }}</strong></p>
-                            <p class="text-muted">Jl. Beji No.99, Depok, Jawa Barat</p>
-                            {{-- <button class="btn btn-outline-secondary btn-sm" type="button">Ganti</button> --}}
-                        </div>
+                            @if ($userAddress)
+        <p class="text-muted">
+            {{ $userAddress->address }}, {{ $userAddress->city }}, {{ $userAddress->post_code }}
+        </p>
+    @else
+        <p class="text-muted text-danger">Alamat belum diatur. Silakan update di profil.</p>
+    @endif
+    <a href="{{ route('profile.edit') }}" class="btn btn-outline-secondary btn-sm mt-2">Ubah Alamat</a>
+</div>
+                            
                     </div>
 
                     <!-- Order Summary -->
                     <div class="card mb-4">
                         <div class="card-body">
-                            <h5 class="card-title mb-3">Qetcil</h5>
+                            <h5 class="card-title mb-3">Product</h5>
                             <div class="d-flex align-items-start mb-3">
                                 <img src="{{ Storage::url($bouquet['thumbnail']) }}" alt="Product Image"
                                     class="img-fluid rounded me-3" width="80" height="80">
@@ -38,10 +44,9 @@
                                     <p class="mb-1">{{ $bouquet['name'] }}</p>
                                     <p class="text-muted mb-0">{{ $data['quantity'] }} x
                                         Rp{{ number_format($bouquet['price'], 0, ',', '.') }}</p>
-                                    <p class="text-muted">Size: {{ $data['size'] }}</p>
                                 </div>
                             </div>
-                            <textarea name="note" class="form-control" rows="2" placeholder="Kasih catatan (opsional)"></textarea>
+                            <textarea name="note" class="form-control" rows="2" placeholder="Tambah catatan (opsional)"></textarea>
                         </div>
                     </div>
                 </div>

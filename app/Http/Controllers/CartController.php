@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Order;
 use App\Models\Bouquet;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -128,6 +129,38 @@ class CartController extends Controller
     }
 
     return redirect()->route('cart.index');
+}
+
+public function checkoutProcess(Request $request)
+{
+    $request->validate([
+        'bank_id' => 'required|exists:banks,id',
+        'address' => 'required|string|max:1000',
+        'note' => 'nullable|string|max:500',
+        'quantity' => 'required|integer|min:1',
+    ]);
+
+    $user = Auth::user();
+
+    // Simpan alamat baru ke profil user
+    $user->address = $request->address;
+    $user->save();
+
+    // Simpan data pesanan
+    $order = new Order();
+    $order->user_id = $user->id;
+    $order->bank_id = $request->bank_id;
+    $order->shipping_address = $request->address;
+    $order->note = $request->note;
+    $order->total_quantity = $request->quantity;
+    $order->status = 'pending';
+    $order->save();
+
+    // Kosongkan cart
+    Cart::where('user_id', $user->id)->delete();
+
+    return redirect()->route('front.orders.show', $order->id)
+        ->with('success', 'Pesanan berhasil dibuat!');
 }
 
 }

@@ -52,4 +52,9 @@ class BouquetTransaction extends Model
     {
         return $this->hasMany(TransactionItem::class, 'bouquet_transaction_id');
     }
+
+    public function address()
+{
+    return $this->belongsTo(\App\Models\User::class, 'user_id')->with('address');
+}
 }

@@ -116,6 +116,21 @@ class BouquetTransactionResource extends Resource
                     ->sortable()
                     ->copyable(),
 
+                TextColumn::make('user.address.address')
+    ->label('Alamat')
+    ->wrap()
+    ->sortable(),
+
+TextColumn::make('user.address.city')
+    ->label('Kota')
+    ->sortable(),
+
+TextColumn::make('user.address.post_code')
+    ->label('Kode Pos')
+    ->sortable(),
+
+
+
                 TextColumn::make('grand_total_amount')
                     ->label('Grand Total')
                     ->money('IDR'),

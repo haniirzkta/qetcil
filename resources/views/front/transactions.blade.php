@@ -25,9 +25,11 @@
                             <h5 class="card-title">{{ $transaction->transaction_trx_id }}</h5>
                             <p class="card-text">{{ number_format($transaction->grand_total_amount, 2, ',', '.') }} IDR</p>
                             <p class="card-text">{{ $transaction->created_at->format('Y-m-d H:i') }}</p>
-                            <a href="" class="btn btn-dark">
-                                {{ $transaction->status }}
-                            </a>
+                            <a href="{{ $transaction->status === 'unpaid' ? route('front.payment', $transaction->transaction_trx_id) : '#' }}"
+   class="btn {{ $transaction->status === 'unpaid' ? 'btn-warning' : 'btn-dark disabled' }}">
+    {{ $transaction->status === 'unpaid' ? 'Continue Payment' : ucfirst($transaction->status) }}
+</a>
+
                         </div>
                     </div>
                 </div>
